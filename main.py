@@ -18,17 +18,9 @@ for file in os.listdir(input_dir):
         csv_reader = csv.reader(fp)
 
         for row in csv_reader:
+            transactions.append(Transaction(row))
 
-            trans_date = row[0]
-            trans_desc = row[1]
-            debit      = row[2]
-            credit     = row[3]
-
-            transactions.append(Transaction([trans_date,
-                                             trans_desc,
-                                             debit,
-                                             credit]))
 
 for transaction in transactions:
-    print(f"{transaction.credit}")
+    print(f"{transaction.date}: {transaction.description} {transaction.credit}, {transaction.debit}")
 

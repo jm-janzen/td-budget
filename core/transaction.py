@@ -1,25 +1,23 @@
+import datetime
 
 class Transaction():
     def __init__(self, record):
         """ Build Transaction object on transaction record
         :param record: [ date, description, debit, credit ]
-
-        TODO set empty debit/credit to 0
-        TODO convert date to datetime object
-
         """
         if len(record) < 4:
             raise Exception(f"Invalid record '{record}'")
 
-        # TODO validate these values
-        self._date   = record[0]
-        self._desc   = record[1]
-        self._debit  = record[2]
-        self._credit = record[3]
+        self.date   = record[0]
+        self.desc   = record[1]
+        self.debit  = record[2]
+        self.credit = record[3]
 
     @property
     def date(self):
-        return self._date
+        """ Return simple date str.
+        For access to datetime obj, use `Transaction._date` """
+        return self._date.strftime("%Y-%m-%d")
 
     @property
     def description(self):
@@ -32,3 +30,28 @@ class Transaction():
     @property
     def credit(self):
         return self._credit
+
+    @date.setter
+    def date(self, d):
+        """ Convert to proper datetime object """
+        self._date = datetime.datetime.strptime(d, "%m/%d/%Y")
+
+    @description.setter
+    def desc(self, d):
+        """ Set member to given str, no validation """
+        self._desc = d
+
+    @debit.setter
+    def debit(self, d):
+        """ Set member to given float, else set to 0.0 """
+        if len(d) < 1:
+            d = 0.0
+        self._debit = float(d) * -1
+
+    @credit.setter
+    def credit(self, d):
+        """ Set member to given float, else set to 0.0 """
+        if len(d) < 1:
+            d = 0.0
+        self._credit = float(d)
+
