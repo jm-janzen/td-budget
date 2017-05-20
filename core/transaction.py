@@ -1,17 +1,28 @@
 import datetime
 
 class Transaction():
-    def __init__(self, record):
-        """ Build Transaction object on transaction record
+    def __init__(self, account, record):
+        """ Build Transaction object on transaction record, and account name
+        :param account: str account name
         :param record: [ date, description, debit, credit ]
         """
         if len(record) < 4:
             raise Exception(f"Invalid record '{record}'")
 
+        self.account = account
+
         self.date   = record[0]
         self.desc   = record[1]
         self.debit  = record[2]
         self.credit = record[3]
+
+    def dump(self):
+        """ Return formatted str summary """
+        return f"{self.date} - {self.account}: {self.description} {self.credit}, {self.debit}"
+
+    @property
+    def account(self):
+        return self._account
 
     @property
     def date(self):
@@ -30,6 +41,10 @@ class Transaction():
     @property
     def credit(self):
         return self._credit
+
+    @account.setter
+    def account(self, acct):
+        self._account = acct.upper()
 
     @date.setter
     def date(self, d):

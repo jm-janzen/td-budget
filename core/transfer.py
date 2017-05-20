@@ -4,7 +4,7 @@ from . transaction import Transaction
 
 class Transfer():
     def __init__(self, t1, t2):
-        """ TODO Init a pair of Transactions, between accounts """
+        """ Init a pair of Transactions, between accounts """
         #print(f"Transfer::__init__({t1}, {t2})")
         self.fr = t1
         self.to = t2
@@ -27,7 +27,7 @@ class Transfer():
 
     def _parse_transaction(self, t):
         """ TODO Break up str into relevant parts and return"""
-        print("Parsing", t.dump())
+        #print(f"Transfer::_parse_transaction({t.dump()})\t# dump()")
         return t
 
 
@@ -35,7 +35,7 @@ class TransferManager():
 
     @staticmethod
     def BuildTransfers(transactions):
-        """ TODO Build list of paired Transfers using given Transaction[] """
+        """ Build list of paired Transfers using given Transaction[] """
 
         transfer_pairs = []
         tmp_transfers      = defaultdict(dict)
@@ -49,15 +49,11 @@ class TransferManager():
             elif "TFR-TO" in transaction.description:
                 tmp_transfers[id]["to"] = transaction
 
+        # TODO handle transactions with no pair somehow ...
         for id, pair in tmp_transfers.items():
-            #print(id, pair)
             if len(pair) < 2:
-                print(f"Transaction with no pair {id}!")
+                #print(f"Transaction with no pair {id}!")
                 continue
 
-            #fr, to = pair.values()
-            #print(fr.debit, fr.credit, to.debit, to.credit)
-
             transfer_pairs.append(Transfer(*pair.values()))
-            print()
 
